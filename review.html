@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Page</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://img.freepik.com/free-photo/memory-loss-dementia-alzheimer-concept-created-with-generative-ai-technology_185193-110038.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .review-container {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 400px;
+        }
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            text-align: left;
+        }
+        .buttons {
+            margin-top: 15px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="review-container">
+        <h2>Review Your Details</h2>
+        <table>
+            <tr><th>Field</th><th>Value</th></tr>
+            <tr><td>Name</td><td id="name"></td></tr>
+            <tr><td>Email</td><td id="email"></td></tr>
+            <tr><td>Phone</td><td id="phone"></td></tr>
+            <tr><td>Gender</td><td id="gender"></td></tr>
+            <tr><td>Date of Birth</td><td id="dob"></td></tr>
+            <tr><td>Address</td><td id="address"></td></tr>
+        </table>
+        <div class="buttons">
+            <button onclick="goBack()">Edit Details</button>
+            <button onclick="confirmDetails()">Confirm</button>
+        </div>
+    </div>
+
+    <script>
+        function loadData() {
+            const userDetails = JSON.parse(localStorage.getItem("userDetails"));
+            document.getElementById("name").innerText = userDetails.name;
+            document.getElementById("email").innerText = userDetails.email;
+            document.getElementById("phone").innerText = userDetails.phone;
+            document.getElementById("gender").innerText = userDetails.gender;
+            document.getElementById("dob").innerText = userDetails.dob;
+            document.getElementById("address").innerText = userDetails.address;
+        }
+
+        function goBack() {
+            window.location.href = "re_registration.html";
+        }
+
+        function confirmDetails() {
+            let database = JSON.parse(localStorage.getItem("database")) || [];
+            let userDetails = JSON.parse(localStorage.getItem("userDetails"));
+            database.push(userDetails);
+            localStorage.setItem("database", JSON.stringify(database));
+            window.location.href = "login.html";
+        }
+
+        window.onload = loadData;
+    </script>
+
+</body>
+</html>

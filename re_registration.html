@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Re-Registration Page</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://th.bing.com/th/id/OIP.m_MJINWH23OFuIIwUeDdFgHaE8?cb=iwc2&rs=1&pid=ImgDetMain') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .register-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 350px;
+        }
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        input, select {
+            display: block;
+            width: 90%;
+            padding: 12px;
+            margin: 8px auto;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.85);
+            font-size: 16px;
+        }
+        button {
+            width: 92%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="register-container">
+        <h2>Re-Register</h2>
+        <input type="text" id="name" placeholder="Full Name">
+        <input type="email" id="email" placeholder="Email">
+        <input type="tel" id="phone" placeholder="Phone Number">
+        <select id="gender">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+        </select>
+        <input type="date" id="dob">
+        <input type="text" id="address" placeholder="Address">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="storeData()">Register</button>
+    </div>
+
+    <script>
+        function storeData() {
+            const userDetails = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                gender: document.getElementById("gender").value,
+                dob: document.getElementById("dob").value,
+                address: document.getElementById("address").value,
+                password: document.getElementById("password").value
+            };
+
+            localStorage.setItem("userDetails", JSON.stringify(userDetails));
+            window.location.href = "review.html";
+        }
+    </script>
+
+</body>
+</html>

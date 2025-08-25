@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin-Login Page</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://png.pngtree.com/thumb_back/fw800/background/20221012/pngtree-alzheimer-s-distress-late-alzheimers-photo-image_9674514.jpg') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 320px;
+        }
+        h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        input {
+            display: block;
+            width: 90%;
+            padding: 14px;
+            margin: 10px auto;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            background: rgba(255, 255, 255, 0.85);
+            font-size: 16px;
+        }
+        button {
+            width: 92%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Admin-Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="validateLogin()">Login</button>
+        <p id="message"></p>
+    </div>
+
+    <script>
+        let attempts = 0;
+
+        function validateLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const message = document.getElementById('message');
+
+            if (username === "admin" && password === "1234") {
+                message.style.color = "lightgreen";
+                message.innerText = "Login successful! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "database.html"; 
+                }, 1000);
+            } else {
+                attempts++;
+                message.style.color = "red";
+                message.innerText = `Invalid login attempt ${attempts}/2`;
+
+                if (attempts >= 2) {
+                    alert("Too many incorrect attempts. Redirecting to home page...");
+                    window.location.href = "login.html"; 
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

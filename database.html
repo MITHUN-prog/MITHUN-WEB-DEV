@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: url('https://source.unsplash.com/1600x900/?technology,security') no-repeat center center/cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .database-container {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 90%;
+        }
+        h2 {
+            color: black;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 60%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        .edit-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .print-btn {
+            background-color: #ffcc00;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="database-container">
+        <h2>Registered Patients</h2>
+        <input type="text" id="searchBar" placeholder="Search by name..." onkeyup="searchData()">
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient'sCode</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Gender</th>
+                    <th>Date of Birth</th>
+                    <th>Address</th>
+                    <th>Password</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="userData"></tbody>
+        </table>
+        <button onclick="printPage()" class="print-btn">Print</button>
+        <img src="https://source.unsplash.com/1600x400/?health,hospital" alt="Database Image">
+    </div>
+
+    <script>
+        function loadDatabase() {
+            let database = JSON.parse(localStorage.getItem("database")) || [];
+            const tableBody = document.getElementById("userData");
+
+            tableBody.innerHTML = ""; // Clear previous content
+            database.forEach((user, index) => {
+                user.qpCode = index + 1; // Assign sequential QP code
+                
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${user.qpCode}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>${user.phone}</td>
+                    <td>${user.gender}</td>
+                    <td>${user.dob}</td>
+                    <td>${user.address}</td>
+                    <td>${user.password}</td>
+                    <td>
+                        <button class="edit-btn" onclick="editUser(${index})">Edit</button>
+                        <button class="delete-btn" onclick="deleteUser(${index})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            localStorage.setItem("database", JSON.stringify(database)); // Save updated database
+        }
+
+        function searchData() {
+            const searchValue = document.getElementById("searchBar").value.toLowerCase();
+            const tableRows = document.querySelectorAll("#userData tr");
+
+            tableRows.forEach(row => {
+                const nameCell = row.cells[1].innerText.toLowerCase();
+                row.style.display = nameCell.includes(searchValue) ? "" : "none";
+            });
+        }
+
+        function editUser(index) {
+            let database = JSON.parse(localStorage.getItem("database"));
+            let user = database[index];
+
+            let newName = prompt("Edit Name:", user.name);
+            let newEmail = prompt("Edit Email:", user.email);
+            let newPhone = prompt("Edit Phone:", user.phone);
+            let newGender = prompt("Edit Gender:", user.gender);
+            let newDob = prompt("Edit Date of Birth:", user.dob);
+            let newAddress = prompt("Edit Address:", user.address);
+            let newPassword = prompt("Edit Password:", user.password);
+
+            if (newName && newEmail && newPhone && newGender && newDob && newAddress && newPassword) {
+                database[index] = {
+                    qpCode: user.qpCode,
+                    name: newName,
+                    email: newEmail,
+                    phone: newPhone,
+                    gender: newGender,
+                    dob: newDob,
+                    address: newAddress,
+                    password: newPassword
+                };
+
+                localStorage.setItem("database", JSON.stringify(database));
+                loadDatabase();
+            }
+        }
+
+        function deleteUser(index) {
+            let database = JSON.parse(localStorage.getItem("database"));
+            if (confirm("Are you sure you want to delete this user?")) {
+                database.splice(index, 1); // Remove user from database
+                localStorage.setItem("database", JSON.stringify(database));
+                loadDatabase();
+            }
+        }
+
+        function printPage() {
+            window.print();
+        }
+
+        window.onload = loadDatabase;
+    </script>
+
+</body>
+</html>
